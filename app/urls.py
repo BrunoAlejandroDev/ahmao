@@ -19,5 +19,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/catalogo/', include('catalogo.urls'))
+    
+    #* Qualquer requisicao para /api/auth/... sera gerenciada pelo app 'contas'
+    path('api/auth/', include('contas.urls')),
+
+    # As linhas abaixo serão adicionadas no futuro, conforme desenvolvimento de cada funcionalidade
+    # path('api/catalogo/', include('catalogo.urls')), # Qualquer requisicao para api/catalogo/... sera gerenciada pelo app 'catalogo'
+    # path('api/assinaturas/', include('assinaturas.urls')),
+    # path('api/kits/', include('kits.urls')),
+    # path('api/tutoriais/', include('tutoriais.urls')),
 ]
