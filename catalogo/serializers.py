@@ -1,11 +1,35 @@
+'''
+CategorySerializer, CraftTypeSerializer, DifficultySerializer são serializers (tradutores) dos dados do banco para formato JSON. Herdam de ModelSerializer
+'''
+
 # catalogo/serializers.py
 from rest_framework import serializers
-from .models import Produto
+from .models import Product, Category, CraftType, Difficulty
 
-class ProdutoSerializer(serializers.ModelSerializer):
-    # Ele cria automaticamente campos baseados no modelo e validadores.
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Produto  # Especifica o modelo que este serializer irá manipular
-        fields = ['id', 'nome', 'descricao', 'valor', 'criado_em', 'atualizado_em']
-        read_only_fields = ['criado_em', 'atualizado_em']
-        # Campos que devem ser lidos da API, mas não devem ser definidos diretamente ao criar/atualizar.
+        model = Category
+        fields = ['id', 'name', 'description']
+        
+class CraftTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CraftType
+        fields = ['id', 'name']
+        
+class DifficultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Difficulty
+        fields = ['id', 'name']
+        
+class ProductSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField() # serve para mostrar o nome da categoria ao inves de apenas o ID
+    class Meta:
+        model = Product
+        fields = [
+            'id', 
+            'name', 
+            'description', 
+            'price', 
+            'url_image', 
+            'category'
+        ]
