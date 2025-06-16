@@ -164,15 +164,30 @@ Se tudo correu bem, sua API estará rodando em: http://127.0.0.1:8000/
 
 ---
 
-## 🧪 Testando a API
+## 📖 Documentação da API
 
-Use uma ferramenta como Postman ou Insomnia para interagir com os endpoints:
+Use uma ferramenta como Postman ou Insomnia para interagir com os endpoints. 
+A seguir estão os endpoints disponíveis atualmente na API. A URL base para desenvolvimento local é http://127.0.0.1:8000.
 
-### Registrar um usuário:
-POST http://127.0.0.1:8000/api/auth/register/
+### Endpoints de Autenticação e Conta (/api/auth/)
 
-### Fazer Login:
-POST http://127.0.0.1:8000/api/auth/login/
+| Método     | Endpoint                  | Descrição                                                               | Autenticação         | Corpo (Body) de Exemplo                                                                 |
+|------------|---------------------------|-------------------------------------------------------------------------|-----------------------|------------------------------------------------------------------------------------------|
+| POST       | /api/auth/register/       | Registra um novo usuário.                                               | Não                   | `{"username": "...", "password": "...", "email": "...", "cpf": "...", "phone": "..."}`   |
+| POST       | /api/auth/login/          | Autentica um usuário e retorna tokens de acesso e atualização.          | Não                   | `{"username": "...", "password": "..."}`                                                 |
+| POST       | /api/auth/login/refresh/  | Gera um novo token de acesso usando um token de atualização válido.     | Não                   | `{"refresh": "seu_refresh_token"}`                                                       |
+| GET        | /api/auth/me/             | Retorna os dados do perfil do usuário atualmente logado.                | Sim (Bearer Token)    | N/A                                                                                      |
+| PUT/PATCH  | /api/auth/me/             | Atualiza os dados do perfil do usuário atualmente logado.               | Sim (Bearer Token)    | `{"first_name": "...", "email": "..."}`                                                  |
+
+### Endpoints do Catálogo de Produtos (/api/catalogo/)
+
+| Método | Endpoint                             | Descrição                                                     | Autenticação |
+|--------|--------------------------------------|----------------------------------------------------------------|---------------|
+| GET    | /api/catalogo/products/              | Lista todos os produtos disponíveis no catálogo.               | Não           |
+| GET    | /api/catalogo/products/{id}/         | Retorna os detalhes de um produto específico pelo seu ID.      | Não           |
+| GET    | /api/catalogo/categories/            | Lista todas as categorias de produtos.                         | Não           |
+| GET    | /api/catalogo/craft-types/           | Lista todos os tipos de manualidade disponíveis.               | Não           |
+| GET    | /api/catalogo/difficulties/          | Lista todos os níveis de dificuldade.                          | Não           |
 
 ### Acessar Rotas Protegidas:
 Adicione o seguinte cabeçalho:
@@ -183,5 +198,5 @@ Authorization: Bearer <SEU_ACCESS_TOKEN>
 ## 👤 Autores
 
 - **Bruno Alejandro**  
-[LinkedIn](https://www.linkedin.com/in/seu-perfil)  
-[GitHub](https://github.com/seu-usuario)
+[LinkedIn](https://www.linkedin.com/in/brunoalejandrodev/)  
+[GitHub](https://github.com/BrunoAlejandroDev/)
