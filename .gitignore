@@ -4,6 +4,9 @@ env/
 *.env
 .env.*
 
+# nao ignore o arquivo .env.example
+!.env.example
+
 # Arquivos compilados do Python
 __pycache__/
 *.py[cod]
