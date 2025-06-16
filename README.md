@@ -1,84 +1,187 @@
-# À Mão
-API do projeto À Mão 
+# API do Projeto "À Mão" 🚀
 
-# 🛠️ Guia de Configuração do Projeto Django com GitHub Desktop
+Bem-vindo(a) à API do projeto **"À Mão"**!  
+Esta é a aplicação back-end que dá vida à nossa plataforma de assinatura de kits de manualidades.  
+A API gerencia usuários, assinaturas, catálogos de produtos, tutoriais e todo o sistema por trás da experiência criativa e consciente que oferecemos.
 
-Este projeto utiliza Django no back-end. Abaixo está o passo a passo completo para configurar o ambiente local, instalar as dependências, executar a aplicação e conectá-la com um front-end (ex: React). O fluxo utiliza o GitHub Desktop para operações com o repositório e o terminal para configuração e execução do projeto.
+![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 
-## ✅ Passo a Passo Completo
+---
 
-1. **Clone o repositório com o GitHub Desktop**  
-Abra o GitHub Desktop, clique em `File > Clone Repository...`, cole a URL do repositório e clique em "Clone".
+## 🛠️ Tecnologias Utilizadas
 
-2. **Abra o terminal na pasta do projeto**  
-Com o repositório selecionado no GitHub Desktop, vá em `Repository > Open in Terminal`. Isso abrirá o terminal já na pasta correta do projeto.
+- **Django**: Framework web principal para o back-end.  
+- **Django REST Framework**: Para a construção da API RESTful.  
+- **Simple JWT**: Autenticação segura baseada em JSON Web Tokens.  
+- **PostgreSQL**: Banco de dados relacional principal (produção).  
+- **SQLite**: Banco de dados leve para desenvolvimento rápido.  
+- **Python Decouple**: Gerenciamento de variáveis de ambiente.
 
-3. **Crie e ative um ambiente virtual**  
-No terminal, execute:
+---
 
+## ✅ Pré-requisitos
+
+Antes de começar, certifique-se de ter os seguintes softwares instalados:
+
+- **Git**: Para clonar o repositório.
+- **Python 3.8 ou superior** – [Baixar Python](https://www.python.org/downloads/)
+- **PostgreSQL (opcional)** – [Baixar PostgreSQL](https://www.postgresql.org/download/)
+- **Cliente de API recomendado**: Postman ou Insomnia
+
+---
+
+## ⚙️ Configuração do Ambiente (Passos Iniciais)
+
+Estes passos são comuns para ambas as opções de instalação:
+
+### 1. Clone o Repositório
+
+Abra seu terminal e clone o projeto do GitHub para sua máquina:
+
+```bash
+git clone <URL_DO_SEU_REPOSITORIO_GITHUB>
+```
+
+### 2. Navegue Para a Pasta do Projeto
+
+```bash
+cd ahmao
+```
+
+### 3. Crie e Ative o Ambiente Virtual
+
+Isso isola as dependências do projeto para evitar conflitos:
+
+```bash
+# Cria o ambiente virtual
 python -m venv venv
 
-Para ativar o ambiente virtual:
+# Ativa o ambiente virtual
+# No Windows:
+venv\Scripts\activate
 
-- No Linux/macOS:  
-  source venv/bin/activate
+# No macOS/Linux:
+source venv/bin/activate
+```
 
-- No Windows:  
-  venv\Scripts\activate
+### 4. Instale as Dependências
 
-4. **Instale as dependências do projeto**  
-Com o ambiente virtual ativado, execute:
+Este comando lê o arquivo requirements.txt e instala todas as bibliotecas Python necessárias:
 
+```bash
 pip install -r requirements.txt
+```
+ℹ️ O psycopg2-binary (driver do PostgreSQL) será instalado mesmo que você use SQLite. Isso é normal e não causará problemas.
 
-5. **Aplique as migrações do banco de dados**  
-Execute o comando:
+---
 
+## 💾 Opções de Instalação do Banco de Dados
+Escolha uma das duas opções abaixo para configurar seu banco de dados:
+
+### 🔹 Opção 1: Instalação Completa (com PostgreSQL)
+#### 1. Crie um Banco de Dados Vazio
+- Acesse o pgAdmin (ou outra ferramenta).
+- Crie um banco chamado ahmao_db.
+- Certifique-se de ter um usuário e senha válidos.
+#### 2. Configure o Arquivo .env
+- Na raiz do projeto, você encontrará um arquivo chamado .env.example.
+- Copie este arquivo e renomeie a cópia para .env.
+- Abra o novo arquivo e preencha com suas informações locais:
+```bash
+# .env
+SECRET_KEY='gere_e_cole_uma_nova_chave_secreta_aqui'
+DEBUG=True
+DB_NAME=ahmao_db
+DB_USER=seu_usuario_postgres
+DB_PASSWORD=sua_senha_do_postgres
+DB_HOST=localhost
+DB_PORT=5432
+```
+
+### 🔹 Opção 2: Instalação Rápida (com SQLite)
+
+#### 1. Modifique o `settings.py`
+
+Abra o arquivo `ahmao/app/settings.py`.  
+Encontre a seção `DATABASES` e altere da seguinte forma:
+
+```python
+# Comente a configuração PostgreSQL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
+#         'PORT': config('DB_PORT', cast=int),
+#     }
+# }
+
+# Ative a configuração SQLite
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+``` 
+#### 2. Configure o Arquivo .env (Simplificado)
+
+Mesmo com SQLite, você ainda precisa criar o arquivo .env a partir do .env.example.
+Mas só a SECRET_KEY precisa ser preenchida:
+
+```bash
+# .env
+SECRET_KEY='gere_e_cole_uma_nova_chave_secreta_aqui'
+DEBUG=True
+```
+As variáveis DB_... serão ignoradas.
+
+---
+
+## ✅ Passos Finais (Comuns a Ambas as Opções)
+
+Após configurar seu banco de dados com a Opção 1 ou 2, finalize a instalação:
+
+### 1. Aplique as Migrações do Banco de Dados
+``` bash
 python manage.py migrate
+```
+### 2. Crie um Superusuário (Opcional)
 
-6. **(Opcional) Crie um superusuário para acessar o admin do Django**  
-Execute:
-
+Para acessar a interface de administração do Django (/admin):
+```bash
 python manage.py createsuperuser
+```
 
-Você definirá um nome de usuário, email e senha. Esse passo é opcional, mas recomendado para acessar a interface administrativa do Django.
-
-7. **Verifique (ou configure) o CORS para permitir o acesso do front-end à API**  
-Abra o arquivo `lojinha/settings.py` no editor de código e verifique se existe a variável CORS_ALLOWED_ORIGINS. Caso não exista ou esteja vazia, adicione:
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
-]
-
-Esse endereço corresponde ao front-end rodando localmente, como em aplicações React.
-
-Se o pacote `django-cors-headers` ainda não estiver instalado, instale com:
-
-pip install django-cors-headers
-
-Depois, adicione `'corsheaders'` em `INSTALLED_APPS`, e `'corsheaders.middleware.CorsMiddleware'` no início da lista `MIDDLEWARE`.
-
-8. **Execute o servidor de desenvolvimento do Django**  
-No terminal, execute:
-
+### 3. Inicie o Servidor
+```bash
 python manage.py runserver
+```
 
-A aplicação estará acessível em `http://127.0.0.1:8000/`.
+Se tudo correu bem, sua API estará rodando em: http://127.0.0.1:8000/
 
-9. **Conecte o Front-End**  
-Com o back-end rodando em `http://127.0.0.1:8000/` e o CORS configurado, o front-end poderá fazer requisições normalmente (ex: React rodando em `http://localhost:3000`).
+---
 
-## 💡 Resumo das Ações no Terminal
+## 🧪 Testando a API
 
-- python -m venv venv  
-- source venv/bin/activate (Linux/macOS) ou venv\Scripts\activate (Windows)  
-- pip install -r requirements.txt  
-- python manage.py migrate  
-- python manage.py createsuperuser (opcional)  
-- Verificar o CORS manualmente no settings.py  
-- python manage.py runserver
+Use uma ferramenta como Postman ou Insomnia para interagir com os endpoints:
 
-## 📌 Considerações Finais
+### Registrar um usuário:
+POST http://127.0.0.1:8000/api/auth/register/
 
-- A configuração do ambiente Python/Django e a execução do projeto ainda dependem do terminal.
-- O CORS precisa estar corretamente configurado para que o front-end se comunique com a API.
+### Fazer Login:
+POST http://127.0.0.1:8000/api/auth/login/
+
+### Acessar Rotas Protegidas:
+Adicione o seguinte cabeçalho:
+Authorization: Bearer <SEU_ACCESS_TOKEN>
+
+---
+
+## 👤 Autores
+
+- **Bruno Alejandro**  
+[LinkedIn](https://www.linkedin.com/in/seu-perfil)  
+[GitHub](https://github.com/seu-usuario)
