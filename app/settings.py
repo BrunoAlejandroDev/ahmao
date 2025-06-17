@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+
+    #swagger
+    'drf_yasg',
     
     # apps do projeto
     'contas.apps.ContasConfig',
