@@ -32,20 +32,19 @@ schema_view = get_schema_view(
 )
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     #* Qualquer requisicao para /api/auth/... sera gerenciada pelo app 'contas'
     path('api/auth/', include('contas.urls')),
     path('api/catalogo/', include('catalogo.urls')), # Qualquer requisicao para api/catalogo/... sera gerenciada pelo app 'catalogo'
+    path('api/kits/', include('kits.urls')),
 
     # As linhas abaixo serão adicionadas no futuro, conforme desenvolvimento de cada funcionalidade
     # path('api/assinaturas/', include('assinaturas.urls')),
-    # path('api/kits/', include('kits.urls')),
     # path('api/tutoriais/', include('tutoriais.urls')),
 
-     # Swagger URLs
+    # Swagger URLs
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
