@@ -39,9 +39,9 @@ urlpatterns = [
     path('api/auth/', include('contas.urls')),
     path('api/catalogo/', include('catalogo.urls')), # Qualquer requisicao para api/catalogo/... sera gerenciada pelo app 'catalogo'
     path('api/kits/', include('kits.urls')),
+    path('api/assinaturas/', include('assinaturas.urls')),
 
     # As linhas abaixo serão adicionadas no futuro, conforme desenvolvimento de cada funcionalidade
-    # path('api/assinaturas/', include('assinaturas.urls')),
     # path('api/tutoriais/', include('tutoriais.urls')),
 
     # Swagger URLs
