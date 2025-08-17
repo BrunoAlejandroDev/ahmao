@@ -25,3 +25,16 @@ Thumbs.db
 # Logs
 logs/
 *.log
+
+*credentials*.json
+*secret*.json
+*secret*.yml
+
+.mypy_cache/
+.pytest_cache/
+.cache/
+
+*.pem
+*.key
+*.crt
+*.cert
